@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mental Health Tiered Care Calculator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Mental Health Tiered Care Calculator</h1>
+        <p>
+          Follow the screening logic for PHQ-4, PHQ-9, GAD-7, and C-SSRS to determine
+          the recommended tier of support for a client.
+        </p>
+      </header>
+
+      <section class="card" id="phq4-section">
+        <h2>Step 1 · Administer PHQ-4</h2>
+        <p class="section-description"></p>
+        <div id="phq4-form"></div>
+        <div id="phq4-results"></div>
+      </section>
+
+      <section class="card" id="phq9-section" hidden>
+        <h2>Step 2 · Administer PHQ-9</h2>
+        <p class="section-description"></p>
+        <div id="phq9-form"></div>
+        <div id="phq9-results"></div>
+      </section>
+
+      <section class="card" id="gad7-section" hidden>
+        <h2>Step 3 · Administer GAD-7</h2>
+        <p class="section-description"></p>
+        <div id="gad7-form"></div>
+        <div id="gad7-results"></div>
+      </section>
+
+      <section class="card" id="cssrs-section" hidden>
+        <h2>Step 4 · Administer C-SSRS Screener</h2>
+        <p class="section-description"></p>
+        <div id="cssrs-form"></div>
+        <div id="cssrs-results"></div>
+      </section>
+
+      <section class="card" id="tier-section" hidden>
+        <h2>Tier Recommendation</h2>
+        <div id="tier-results"></div>
+      </section>
+
+      <footer>
+        <p>
+          This tool is provided for service planning purposes and does not replace
+          clinical judgment. Always seek immediate help for imminent risk.
+        </p>
+      </footer>
+    </main>
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>
