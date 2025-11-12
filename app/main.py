@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,6 +15,8 @@ from .models import (
     CSSRSResponse,
     ErrorResponse,
     GAD7Response,
+    MentalHealthSummaryRequest,
+    MentalHealthSummaryResponse,
     PHQ4Response,
     PHQ9Response,
     QuestionnaireDefinition,
@@ -163,4 +165,95 @@ def determine_tier_endpoint(request: TierRequest) -> Dict[str, object]:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     return result
+
+
+@app.post(
+    "/api/mental-health",
+    response_model=MentalHealthSummaryResponse,
+    responses={400: {"model": ErrorResponse}},
+)
+def summarise_mental_health(request: MentalHealthSummaryRequest) -> MentalHealthSummaryResponse:
+    """Aggregate questionnaire responses into narrative guidance for the front-end."""
+
+    followup = logic.followup_from_phq4(
+        {
+            "depression_score": request.phq4_depression,
+            "anxiety_score": request.phq4_anxiety,
+        }
+    )
+
+    screening_bits = [
+        f"<p><strong>PHQ-4 depression sub-score:</strong> {request.phq4_depression}</p>",
+        f"<p><strong>PHQ-4 anxiety sub-score:</strong> {request.phq4_anxiety}</p>",
+    ]
+    recommended_bits = [f"<p>{followup['message']}</p>"]
+
+    phq9_result: Optional[Dict[str, object]] = None
+    if request.phq9_total is not None:
+        phq9_responses = {k: v for k, v in request.responses.items() if k.startswith("phq9_q")}
+        try:
+            phq9_result = logic.score_phq9(phq9_responses)
+        except logic.QuestionnaireScoringError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+        screening_bits.append(
+            f"<p><strong>PHQ-9 total:</strong> {phq9_result['total_score']} "
+            f"({phq9_result['severity']} severity)</p>"
+        )
+        recommended_bits.append(f"<p>{phq9_result['message']}</p>")
+        if phq9_result.get("item_9_score", 0) and int(phq9_result["item_9_score"]) > 0:
+            recommended_bits.append(
+                "<p><strong>Safety alert:</strong> Item 9 is positive. Ensure immediate safety assessment.</p>"
+            )
+
+    gad7_result: Optional[Dict[str, object]] = None
+    if request.gad7_total is not None:
+        gad7_responses = {k: v for k, v in request.responses.items() if k.startswith("gad7_q")}
+        try:
+            gad7_result = logic.score_gad7(gad7_responses)
+        except logic.QuestionnaireScoringError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+        screening_bits.append(
+            f"<p><strong>GAD-7 total:</strong> {gad7_result['total_score']} "
+            f"({gad7_result['severity']} severity)</p>"
+        )
+
+    tier_section = (
+        "<p>Tier recommendation becomes available once PHQ-9 or GAD-7 totals are provided.</p>"
+    )
+    if phq9_result or gad7_result:
+        try:
+            tier_info = logic.determine_tier(
+                int(phq9_result["total_score"]) if phq9_result else request.phq9_total,
+                int(gad7_result["total_score"]) if gad7_result else request.gad7_total,
+            )
+        except logic.QuestionnaireScoringError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+        tier = tier_info["tier"]
+        breakdown_segments = []
+        for tool, data in tier_info["tool_breakdown"].items():
+            breakdown_segments.append(
+                f"<p><em>{tool.upper()} score:</em> {data['score']} "
+                f"(Tier {data['tier']})</p>"
+            )
+        tier_section = (
+            f"<p><strong>{tier['name']}:</strong> {tier['label']}</p>"
+            f"<p>{tier['description']}</p>"
+            + "".join(breakdown_segments)
+        )
+
+    feedback_section: Optional[str] = None
+    if request.rating is not None:
+        feedback_section = (
+            "<p>Thanks for rating the experience. Feedback is logged anonymously to improve the toolkit.</p>"
+        )
+
+    return MentalHealthSummaryResponse(
+        screening_summary="".join(screening_bits),
+        recommended_actions="".join(recommended_bits),
+        service_tier=tier_section,
+        feedback=feedback_section,
+    )
 
