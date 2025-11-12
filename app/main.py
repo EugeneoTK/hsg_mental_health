@@ -26,7 +26,11 @@ from .questionnaires import get_questionnaire, list_questionnaires
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
-INDEX_FILE = STATIC_DIR / "index.html"
+FRONTEND_DIR = BASE_DIR / "frontend"
+INDEX_CANDIDATES = [
+    FRONTEND_DIR / "index.html",
+    STATIC_DIR / "index.html",
+]
 
 app = FastAPI(
     title="Mental Health Tiered Care API",
@@ -48,9 +52,11 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 def read_index() -> FileResponse:
     """Serve the single page application."""
 
-    if not INDEX_FILE.exists():
-        raise HTTPException(status_code=404, detail="User interface has not been built.")
-    return FileResponse(INDEX_FILE)
+    for candidate in INDEX_CANDIDATES:
+        if candidate.exists():
+            return FileResponse(candidate)
+
+    raise HTTPException(status_code=404, detail="User interface has not been built.")
 
 
 @app.get("/api/questionnaires", response_model=list[QuestionnaireDefinition])

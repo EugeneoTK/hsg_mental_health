@@ -46,5 +46,6 @@ Question metadata (including question text and scoring options) is available via
 
 ## Front-end Flow
 
-The front-end lives at `static/index.html` and progressively reveals each assessment based on API
-responses. It displays questionnaire results, risk messaging, and the recommended tier of care.
+The front-end source lives at `frontend/index.html`. When present, this file is served at the root
+path and progressively reveals each assessment based on API responses. If the newer front-end build
+is absent, the application falls back to the legacy assets in `static/`.
