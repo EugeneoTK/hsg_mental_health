@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HSG Mental Health Screening Toolkit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root{ --text:#222; --muted:#5f6a72; --line:#e6e8eb; --bg:#fff; --panel:#f6f7f9; --brand:#0b5bd3; --ok:#1a7f37; --warn:#d92d20; --anx:#845ef7; --dep:#f97316; }
+      html, body{background:var(--bg);color:var(--text)}
+      body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+      .container{max-width:860px;margin:24px auto 72px;padding:0 16px}
+
+      .title-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 20px}
+      .title-row img.logo{transform:scale(.82);transform-origin:left center;border-radius:6px}
+      .title-row h1{font-size:clamp(22px,3.4vw,32px);margin:0;font-weight:700;text-align:center}
+
+      .lead-block{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:10px 0}
+      .lead-block h3{margin:0 0 6px;font-size:14px;letter-spacing:.02em;color:var(--muted);font-weight:700;text-transform:uppercase}
+      .lead-block p{margin:0 0 8px;font-size:14px;color:#2b2f33}
+      .refs{margin-top:6px}
+      .refs div, .refs p{font-size:14px;color:#2b2f33;line-height:1.55}
+
+      .last-updated{color:var(--muted);font-size:14px;margin:14px 0 24px;text-align:center}
+
+      .status-banner{background:#eff4ff;border:1px solid rgba(11,91,211,.36);border-radius:10px;padding:14px 16px;margin:16px 0;display:none;animation:fadeIn .28s ease-out}
+      .status-banner.show{display:block}
+      .status-banner p{margin:0;font-size:14px;color:#2348a0;line-height:1.6}
+      .status-banner strong{font-weight:600;color:#163478}
+
+      @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+      form{margin-top:8px}
+      fieldset{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0;background:#fff;transition:opacity .3s ease, max-height .3s ease}
+      fieldset.collapsible{overflow:hidden;max-height:0;padding-top:0;padding-bottom:0;margin:0;border-color:transparent}
+      fieldset.collapsible.show{padding:14px 16px;margin:14px 0;border-color:var(--line);max-height:800px}
+      legend{padding:0 4px;font-weight:700;font-size:16px;display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+      label{display:flex;align-items:flex-start;gap:10px;margin:10px 0;font-size:14px;color:#2b2f33}
+      label span.choice{flex:1}
+      input[type="radio"]{transform:translateY(1px);margin-top:2px}
+
+      .scale-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;color:#fff;background:var(--brand);letter-spacing:.02em;text-transform:uppercase}
+      .scale-chip.anxiety{background:var(--anx)}
+      .scale-chip.depression{background:var(--dep)}
+
+      .score-pill{display:inline-flex;align-items:center;gap:6px;background:#eef2ff;color:#312e81;font-size:13px;padding:6px 10px;border-radius:999px;margin-top:6px;font-weight:600}
+      .score-pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+
+      .subscale-summary{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 4px}
+      .subscale-card{flex:1;min-width:180px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+      .subscale-card h4{margin:0;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+      .subscale-card p{margin:4px 0 0;font-size:14px;font-weight:600}
+
+      .tip{position:relative;display:inline-flex;align-items:center;gap:6px;margin-left:4px;cursor:help;outline:0;white-space:nowrap;flex-shrink:0}
+      .tip .icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1px solid var(--brand);color:var(--brand);font-weight:800;font-size:12px;line-height:1;background:#fff;user-select:none}
+      .tip .tooltiptext{visibility:hidden;opacity:0;transition:opacity .2s;position:absolute;z-index:1000;bottom:140%;left:50%;transform:translateX(-50%);width:min(440px,calc(100vw - 32px));background:#333;color:#fff;text-align:left;border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.5;font-weight:400;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+      .tip .tooltiptext b{font-weight:600;color:#ffd65a}
+      .tip:hover .tooltiptext, .tip:focus .tooltiptext, .tip:focus-within .tooltiptext{visibility:visible;opacity:1}
+      .tip .tooltiptext::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border-width:6px;border-style:solid;border-color:#333 transparent transparent transparent}
+
+      .helper-text{font-size:13px;color:var(--muted);margin:4px 0 0}
+
+      button[type="submit"], .secondary-btn{padding:10px 14px;font-size:14px;border-radius:10px;border:1px solid var(--brand);background:var(--brand);color:#fff;cursor:pointer;margin-right:8px}
+      button[type="submit"]:hover{filter:brightness(.95)}
+      button[disabled]{opacity:.6;cursor:not-allowed}
+      .secondary-btn{background:#fff;color:var(--brand);display:none}
+      .secondary-btn.clear{border-color:var(--warn);color:var(--warn)}
+      .secondary-btn.clear:hover{background:#fff5f5}
+
+      #result>div{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0;background:#fff}
+      h3.section-head{margin:24px 0 10px;font-size:18px;color:var(--text);font-weight:600}
+      h4{margin:0 0 10px;font-size:16px;color:var(--text);font-weight:600}
+      #result p{margin:8px 0;line-height:1.65;font-size:14px}
+
+      .target-highlight{background:rgba(11,91,211,0.06);border-left:3px solid var(--brand);padding:10px 14px;margin:10px 0;border-radius:6px;font-weight:500}
+      .target-highlight.risk-level{font-weight:600;color:var(--brand);font-size:15px}
+
+      .api-error{background:#fff5f5;border:1px solid rgba(217,45,32,.25);color:#b42318;padding:12px;border-radius:10px;margin-top:12px;font-size:14px}
+      .api-success{background:#f0fdf4;border:1px solid rgba(26,127,55,.25);color:#0f5132;padding:12px;border-radius:10px;margin-top:12px;font-size:14px}
+
+      pre{overflow:auto;white-space:pre-wrap;word-break:break-word}
+
+      .rate-card{margin-top:28px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px}
+      .rate-head{display:flex;align-items:center;gap:10px;justify-content:flex-start;flex-wrap:wrap}
+      .rate-title{font-weight:700;margin-right:4px;font-size:14px}
+      .rating{display:inline-flex;flex-direction:row-reverse;gap:4px}
+      .rating input{display:none}
+      .rating label{font-size:26px;line-height:1;color:#cfcfd4;cursor:pointer;transition:color .15s ease;user-select:none}
+      .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label{color:#f5b301}
+      .rate-thanks{display:none;font-size:13px;color:var(--ok);margin-left:auto}
+      .rate-thanks.show{display:inline-flex;align-items:center;gap:6px}
+      .tick{width:18px;height:18px;border:2px solid var(--ok);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+
+      @media (max-width:620px){
+        .title-row{flex-direction:column}
+        .subscale-summary{flex-direction:column}
+        .rate-head{flex-direction:column;align-items:flex-start}
+        button[type="submit"], .secondary-btn{width:100%;margin:6px 0 0}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-row">
+        <img src="./hsg_edited.avif" alt="Healthier SG" class="logo" />
+        <h1>HSG Mental Health Tiered Screening Toolkit</h1>
+      </div>
+
+      <div class="lead-block">
+        <h3>Introduction</h3>
+        <p>
+          This toolkit administers the Patient Health Questionnaire (PHQ) and
+          Generalized Anxiety Disorder (GAD) screening instruments in a unified,
+          responsive workflow. Begin with the core <strong>PHQ-4</strong>. The page
+          automatically expands to the full <strong>PHQ-9</strong> or <strong>GAD-7</strong>
+          whenever further assessment is required, while retaining the answers
+          already provided.
+        </p>
+      </div>
+
+      <div class="lead-block">
+        <h3>Disclaimer</h3>
+        <p>
+          These digital tools support clinical decision making, but do not replace
+          a comprehensive clinical assessment. Please ensure results are interpreted
+          together with clinical judgement and organisational protocols.
+        </p>
+      </div>
+
+      <div class="lead-block">
+        <h3>References</h3>
+        <div class="refs">
+          <div>Kroenke K. et al. (2009). The PHQ-4 as a brief measure of anxiety and depression.</div>
+          <div>Spitzer R. et al. (2006). A brief measure for assessing generalized anxiety disorder: The GAD-7.</div>
+          <div>Kroenke K. et al. (2001). The PHQ-9: Validity of a brief depression severity measure.</div>
+        </div>
+      </div>
+
+      <div class="last-updated">Last updated: April 2024</div>
+
+      <div class="status-banner" id="statusBanner">
+        <p><strong>Heads-up:</strong> Based on PHQ-4 responses, additional questions have been surfaced.</p>
+      </div>
+
+      <form id="mhForm" name="mhForm" novalidate>
+        <section aria-labelledby="phq4Heading">
+          <fieldset>
+            <legend id="phq4Heading">PHQ-4 Core Screening</legend>
+            <p class="helper-text">
+              Over the last 2 weeks, how often have you been bothered by the following problems?
+            </p>
+          </fieldset>
+
+          <fieldset data-question="phq9_q1" data-scale="phq9" data-subscale="depression">
+            <legend>
+              1. Little interest or pleasure in doing things
+              <span class="scale-chip depression">PHQ-4 / PHQ-9</span>
+            </legend>
+            <label><input type="radio" name="phq9_q1" value="0" required /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q1" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q1" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q1" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset data-question="phq9_q2" data-scale="phq9" data-subscale="depression">
+            <legend>
+              2. Feeling down, depressed, or hopeless
+              <span class="scale-chip depression">PHQ-4 / PHQ-9</span>
+            </legend>
+            <label><input type="radio" name="phq9_q2" value="0" required /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q2" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q2" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q2" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset data-question="gad7_q1" data-scale="gad7" data-subscale="anxiety">
+            <legend>
+              3. Feeling nervous, anxious, or on edge
+              <span class="scale-chip anxiety">PHQ-4 / GAD-7</span>
+            </legend>
+            <label><input type="radio" name="gad7_q1" value="0" required /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q1" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q1" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q1" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset data-question="gad7_q2" data-scale="gad7" data-subscale="anxiety">
+            <legend>
+              4. Not being able to stop or control worrying
+              <span class="scale-chip anxiety">PHQ-4 / GAD-7</span>
+            </legend>
+            <label><input type="radio" name="gad7_q2" value="0" required /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q2" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q2" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q2" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+        </section>
+
+        <section aria-labelledby="gad7Heading">
+          <fieldset class="collapsible" id="gad7Extra" data-group="gad7">
+            <legend id="gad7Heading">
+              GAD-7 follow-up items
+              <span class="scale-chip anxiety">GAD-7</span>
+            </legend>
+            <p class="helper-text">
+              Additional anxiety screening questions appear when the PHQ-4 anxiety sub-score ≥ 3.
+            </p>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="gad7_q3" data-scale="gad7" data-subscale="anxiety">
+            <legend>5. Worrying too much about different things</legend>
+            <label><input type="radio" name="gad7_q3" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q3" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q3" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q3" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="gad7_q4" data-scale="gad7" data-subscale="anxiety">
+            <legend>6. Trouble relaxing</legend>
+            <label><input type="radio" name="gad7_q4" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q4" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q4" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q4" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="gad7_q5" data-scale="gad7" data-subscale="anxiety">
+            <legend>7. Being so restless that it is hard to sit still</legend>
+            <label><input type="radio" name="gad7_q5" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q5" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q5" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q5" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="gad7_q6" data-scale="gad7" data-subscale="anxiety">
+            <legend>8. Becoming easily annoyed or irritable</legend>
+            <label><input type="radio" name="gad7_q6" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q6" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q6" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q6" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="gad7_q7" data-scale="gad7" data-subscale="anxiety">
+            <legend>9. Feeling afraid as if something awful might happen</legend>
+            <label><input type="radio" name="gad7_q7" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="gad7_q7" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="gad7_q7" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="gad7_q7" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+        </section>
+
+        <section aria-labelledby="phq9Heading">
+          <fieldset class="collapsible" id="phq9Extra" data-group="phq9">
+            <legend id="phq9Heading">
+              PHQ-9 follow-up items
+              <span class="scale-chip depression">PHQ-9</span>
+            </legend>
+            <p class="helper-text">
+              Additional depression screening questions appear when the PHQ-4 depression sub-score ≥ 3.
+            </p>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q3" data-scale="phq9" data-subscale="depression">
+            <legend>10. Trouble falling or staying asleep, or sleeping too much</legend>
+            <label><input type="radio" name="phq9_q3" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q3" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q3" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q3" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q4" data-scale="phq9" data-subscale="depression">
+            <legend>11. Feeling tired or having little energy</legend>
+            <label><input type="radio" name="phq9_q4" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q4" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q4" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q4" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q5" data-scale="phq9" data-subscale="depression">
+            <legend>12. Poor appetite or overeating</legend>
+            <label><input type="radio" name="phq9_q5" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q5" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q5" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q5" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q6" data-scale="phq9" data-subscale="depression">
+            <legend>13. Feeling bad about yourself — or that you are a failure or have let yourself or your family down</legend>
+            <label><input type="radio" name="phq9_q6" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q6" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q6" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q6" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q7" data-scale="phq9" data-subscale="depression">
+            <legend>14. Trouble concentrating on things, such as reading the newspaper or watching television</legend>
+            <label><input type="radio" name="phq9_q7" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q7" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q7" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q7" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q8" data-scale="phq9" data-subscale="depression">
+            <legend>15. Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</legend>
+            <label><input type="radio" name="phq9_q8" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q8" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q8" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q8" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+
+          <fieldset class="collapsible" data-question="phq9_q9" data-scale="phq9" data-subscale="depression">
+            <legend>
+              16. Thoughts that you would be better off dead, or of hurting yourself in some way
+              <span class="tip" tabindex="0" role="button" aria-label="Safety note">
+                <span class="icon" aria-hidden="true">!</span>
+                <span class="tooltiptext" role="tooltip">
+                  If this item scores &ge; 1, ensure immediate safety planning and escalate according to service protocol.
+                </span>
+              </span>
+            </legend>
+            <label><input type="radio" name="phq9_q9" value="0" /> <span class="choice">Not at all</span></label>
+            <label><input type="radio" name="phq9_q9" value="1" /> <span class="choice">Several days</span></label>
+            <label><input type="radio" name="phq9_q9" value="2" /> <span class="choice">More than half the days</span></label>
+            <label><input type="radio" name="phq9_q9" value="3" /> <span class="choice">Nearly every day</span></label>
+          </fieldset>
+        </section>
+
+        <div class="subscale-summary" id="scoreSummary" aria-live="polite"></div>
+
+        <button type="submit" id="submitBtn">Submit responses</button>
+        <button type="button" class="secondary-btn" id="copyBtn">Copy summary</button>
+        <button type="button" class="secondary-btn clear" id="clearBtn" aria-label="Clear all inputs and results">Clear all</button>
+      </form>
+
+      <section id="result" aria-live="polite"></section>
+
+      <div class="rate-card" id="rateCard" aria-labelledby="rateTitle">
+        <div class="rate-head">
+          <div id="rateTitle" class="rate-title">Help us improve: Was this screening flow helpful?</div>
+          <div class="rating" role="radiogroup" aria-label="5 star rating">
+            <input type="radio" id="star5" name="rating" value="5" aria-label="5 stars"><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4" aria-label="4 stars"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3" aria-label="3 stars"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2" aria-label="2 stars"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1" aria-label="1 star"><label for="star1">★</label>
+          </div>
+          <div class="rate-thanks" id="rateThanks"><span class="tick">✓</span> Thanks for your feedback!</div>
+        </div>
+        <div class="note">Your star rating is anonymous. It helps us improve the toolkit.</div>
+      </div>
+    </div>
+
+    <script>
+      const PHQ4_DEPRESSION = ['phq9_q1','phq9_q2'];
+      const PHQ4_ANXIETY = ['gad7_q1','gad7_q2'];
+      const PHQ9_FULL = ['phq9_q1','phq9_q2','phq9_q3','phq9_q4','phq9_q5','phq9_q6','phq9_q7','phq9_q8','phq9_q9'];
+      const GAD7_FULL = ['gad7_q1','gad7_q2','gad7_q3','gad7_q4','gad7_q5','gad7_q6','gad7_q7'];
+
+      const severityBands = {
+        phq9: [
+          { max: 4, label: 'Minimal depression'},
+          { max: 9, label: 'Mild depression'},
+          { max: 14, label: 'Moderate depression'},
+          { max: 19, label: 'Moderately severe depression'},
+          { max: Infinity, label: 'Severe depression'}
+        ],
+        gad7: [
+          { max: 4, label: 'Minimal anxiety'},
+          { max: 9, label: 'Mild anxiety'},
+          { max: 14, label: 'Moderate anxiety'},
+          { max: Infinity, label: 'Severe anxiety'}
+        ]
+      };
+
+      const mhForm = document.getElementById('mhForm');
+      const statusBanner = document.getElementById('statusBanner');
+      const scoreSummary = document.getElementById('scoreSummary');
+      const resultDiv = document.getElementById('result');
+      const copyBtn = document.getElementById('copyBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const submitBtn = document.getElementById('submitBtn');
+
+      function sumScore(ids){
+        return ids.reduce((acc,id)=>{
+          const selected = mhForm.querySelector(`input[name="${id}"]:checked`);
+          return acc + (selected ? Number(selected.value) : 0);
+        },0);
+      }
+
+      function setCollapsibleVisibility(ids, shouldShow){
+        ids.forEach(id=>{
+          const fieldset = mhForm.querySelector(`fieldset[data-question="${id}"]`);
+          if(!fieldset) return;
+          const radios = Array.from(fieldset.querySelectorAll('input[type="radio"]'));
+          if(shouldShow){
+            fieldset.classList.add('show');
+            radios.forEach(r=>r.setAttribute('required',''));
+          }else{
+            fieldset.classList.remove('show');
+            radios.forEach(r=>r.removeAttribute('required'));
+          }
+        });
+      }
+
+      function toggleGroup(groupId, shouldShow){
+        const group = mhForm.querySelector(`[data-group="${groupId}"]`);
+        if(!group) return;
+        if(shouldShow){
+          group.classList.add('show');
+        }else{
+          group.classList.remove('show');
+        }
+      }
+
+      function updateSummary(){
+        const depressionScore = sumScore(PHQ4_DEPRESSION);
+        const anxietyScore = sumScore(PHQ4_ANXIETY);
+        const showPhq9 = depressionScore >= 3;
+        const showGad7 = anxietyScore >= 3;
+
+        toggleGroup('phq9', showPhq9);
+        toggleGroup('gad7', showGad7);
+        setCollapsibleVisibility(PHQ9_FULL.slice(2), showPhq9);
+        setCollapsibleVisibility(GAD7_FULL.slice(2), showGad7);
+
+        statusBanner.classList.toggle('show', showPhq9 || showGad7);
+
+        const summaryFrag = document.createDocumentFragment();
+
+        const cards = [
+          {
+            title: 'PHQ-4 depression sub-score',
+            score: depressionScore,
+            badge: { text: '≥3 triggers PHQ-9', active: showPhq9 }
+          },
+          {
+            title: 'PHQ-4 anxiety sub-score',
+            score: anxietyScore,
+            badge: { text: '≥3 triggers GAD-7', active: showGad7 }
+          }
+        ];
+
+        const phq9Score = showPhq9 ? sumScore(PHQ9_FULL) : depressionScore + anxietyScore;
+        const gad7Score = showGad7 ? sumScore(GAD7_FULL) : anxietyScore;
+
+        if(showPhq9){
+          cards.push({
+            title: 'PHQ-9 total score',
+            score: phq9Score,
+            badge: { text: severityLabel('phq9', phq9Score), active: true }
+          });
+        }
+
+        if(showGad7){
+          cards.push({
+            title: 'GAD-7 total score',
+            score: gad7Score,
+            badge: { text: severityLabel('gad7', gad7Score), active: true }
+          });
+        }
+
+        cards.forEach(card=>{
+          const wrapper = document.createElement('div');
+          wrapper.className = 'subscale-card';
+          const h = document.createElement('h4');
+          h.textContent = card.title;
+          const p = document.createElement('p');
+          p.innerHTML = `<span class="score-pill"><span class="dot"></span>Score: ${card.score}</span>`;
+          if(card.badge){
+            const badge = document.createElement('div');
+            badge.className = 'helper-text';
+            badge.innerHTML = card.badge.active ? `<strong>${card.badge.text}</strong>` : card.badge.text;
+            p.appendChild(badge);
+          }
+          wrapper.appendChild(h);
+          wrapper.appendChild(p);
+          summaryFrag.appendChild(wrapper);
+        });
+
+        scoreSummary.replaceChildren(summaryFrag);
+      }
+
+      function severityLabel(scale, score){
+        const band = severityBands[scale].find(b=>score <= b.max);
+        return band ? band.label : '';
+      }
+
+      function sanitizeHTML(input){
+        const tpl=document.createElement('template');
+        tpl.innerHTML=String(input ?? '');
+        const allowed=new Set(['p','a','b','strong','i','em','u','br','ul','ol','li','code','pre','span']);
+        function clean(node){
+          if(node.nodeType===Node.TEXT_NODE) return document.createTextNode(node.textContent||'');
+          if(node.nodeType!==Node.ELEMENT_NODE) return document.createDocumentFragment();
+          const tag=node.tagName.toLowerCase();
+          if(['script','style','iframe','object','embed'].includes(tag)) return document.createDocumentFragment();
+          if(!allowed.has(tag)){
+            const frag=document.createDocumentFragment();
+            Array.from(node.childNodes).forEach(c=>frag.appendChild(clean(c)));
+            return frag;
+          }
+          const el=document.createElement(tag);
+          if(tag==='a'){
+            const href=node.getAttribute('href')||'';
+            if(/^https?:\/\//i.test(href)) el.setAttribute('href',href);
+            el.setAttribute('target','_blank');
+            el.setAttribute('rel','noopener noreferrer');
+            if(node.className) el.className=node.className;
+          }else if(tag==='span' && node.className){
+            el.className=node.className;
+          }
+          Array.from(node.childNodes).forEach(c=>el.appendChild(clean(c)));
+          return el;
+        }
+        const out=document.createElement('div');
+        Array.from(tpl.content.childNodes).forEach(child=>out.appendChild(clean(child)));
+        return out.innerHTML;
+      }
+
+      function convertDashesToHr(html){
+        return html.replace(/<p>\s*-{6,}\s*<\/p>/g,'<hr class="faint">');
+      }
+
+      function highlightTargets(){
+        const highlightClass='target-highlight';
+        resultDiv.querySelectorAll('p').forEach(p=>{
+          const text=p.textContent.trim().toLowerCase();
+          if(text.includes('refer') || text.includes('escalate')){
+            p.classList.add(highlightClass,'risk-level');
+          }else if(text.includes('follow-up') || text.includes('monitor')){
+            p.classList.add(highlightClass);
+          }
+        });
+      }
+
+      function buildPayload(){
+        const formData=new FormData(mhForm);
+        const payload={};
+        formData.forEach((value,key)=>{ payload[key]=value; });
+        payload.phq4_depression=sumScore(PHQ4_DEPRESSION);
+        payload.phq4_anxiety=sumScore(PHQ4_ANXIETY);
+        if(statusBanner.classList.contains('show')){
+          payload.phq9_total=sumScore(PHQ9_FULL);
+          payload.gad7_total=sumScore(GAD7_FULL);
+        }
+        const rating=document.querySelector('input[name="rating"]:checked');
+        if(rating) payload.rating=rating.value;
+        return payload;
+      }
+
+      function buildLocalSummary(){
+        const depressionScore=sumScore(PHQ9_FULL);
+        const anxietyScore=sumScore(GAD7_FULL);
+        const severeItem = mhForm.querySelector('input[name="phq9_q9"]:checked');
+        const anyCritical = severeItem && Number(severeItem.value) > 0;
+        const items=[];
+        if(statusBanner.classList.contains('show')){
+          items.push(`<p><strong>PHQ-9 total:</strong> ${depressionScore} (${severityLabel('phq9', depressionScore)})</p>`);
+          items.push(`<p><strong>GAD-7 total:</strong> ${anxietyScore} (${severityLabel('gad7', anxietyScore)})</p>`);
+        }else{
+          items.push(`<p><strong>PHQ-4 depression sub-score:</strong> ${sumScore(PHQ4_DEPRESSION)}</p>`);
+          items.push(`<p><strong>PHQ-4 anxiety sub-score:</strong> ${sumScore(PHQ4_ANXIETY)}</p>`);
+        }
+        if(anyCritical){
+          items.push('<p><strong>Safety alert:</strong> Item 16 scores &ge; 1. Ensure immediate safety assessment.</p>');
+        }
+        return items.join('');
+      }
+
+      function copySummary(){
+        const payload=buildPayload();
+        const now=new Date();
+        let text=`HSG Mental Health Screening summary (copied on ${now.toLocaleString()}):\n\n`;
+        [...mhForm.querySelectorAll('fieldset[data-question]')].forEach((fs,idx)=>{
+          const legend=fs.querySelector('legend');
+          const question=legend?legend.textContent.trim().replace(/\s+/g,' '):`Question ${idx+1}`;
+          const name=fs.getAttribute('data-question');
+          const selected=fs.querySelector('input[type="radio"]:checked');
+          const answer=selected?selected.nextElementSibling.textContent.trim():'';
+          text+=`${question}\n  ➤ ${answer || '-'}\n\n`;
+        });
+        text+=`Computed scores:\n  • PHQ-4 depression: ${payload.phq4_depression}\n  • PHQ-4 anxiety: ${payload.phq4_anxiety}`;
+        if(payload.phq9_total!==undefined) text+=`\n  • PHQ-9 total: ${payload.phq9_total}`;
+        if(payload.gad7_total!==undefined) text+=`\n  • GAD-7 total: ${payload.gad7_total}`;
+        navigator.clipboard.writeText(text).then(()=>{
+          copyBtn.textContent='Copied!';
+          setTimeout(()=>{copyBtn.textContent='Copy summary';},1800);
+        }).catch(()=>{
+          alert('Failed to copy. Please copy manually.');
+        });
+      }
+
+      function clearAll(){
+        mhForm.reset();
+        resultDiv.innerHTML='';
+        copyBtn.style.display='none';
+        clearBtn.style.display='none';
+        statusBanner.classList.remove('show');
+        mhForm.querySelectorAll('fieldset.collapsible').forEach(fs=>{
+          fs.classList.remove('show');
+          fs.querySelectorAll('input[type="radio"]').forEach(r=>r.removeAttribute('required'));
+        });
+        updateSummary();
+        try{ window.scrollTo({top:0,behavior:'smooth'});}catch{window.scrollTo(0,0);}
+      }
+
+      function renderResult(sections){
+        const frag=document.createDocumentFragment();
+        sections.forEach(section=>{
+          const wrapper=document.createElement('div');
+          wrapper.innerHTML=`<h4>${section.title}</h4>${section.body}`;
+          frag.appendChild(wrapper);
+        });
+        resultDiv.replaceChildren(Object.assign(document.createElement('h3'),{className:'section-head',textContent:'Summary'}), frag);
+        highlightTargets();
+        copyBtn.style.display='inline-block';
+        clearBtn.style.display='inline-block';
+      }
+
+      async function handleSubmit(event){
+        event.preventDefault();
+        if(!mhForm.reportValidity || mhForm.reportValidity()){
+          submitBtn.disabled=true;
+          resultDiv.innerHTML='';
+          const payload=buildPayload();
+          try{
+            const res=await fetch('/api/mental-health',{
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(payload)
+            });
+            const rawText=await res.text();
+            let json;
+            try{ json=JSON.parse(rawText);}catch{
+              const match=rawText.match(/\{[\s\S]*\}$/);
+              if(match){
+                json=JSON.parse(match[0]);
+              }
+            }
+            if(res.ok && json){
+              const sections=[];
+              Object.entries(json).forEach(([key,value])=>{
+                if(typeof value==='string'){
+                  const looksHTML=/<\s*([a-z]+)(\s|>)/i.test(value);
+                  const body=looksHTML?convertDashesToHr(sanitizeHTML(value)):`<p>${value}</p>`;
+                  sections.push({title:key.replace(/_/g,' '), body});
+                }else{
+                  sections.push({title:key.replace(/_/g,' '), body:`<pre>${sanitizeHTML(JSON.stringify(value,null,2))}</pre>`});
+                }
+              });
+              if(sections.length){
+                renderResult(sections);
+              }else{
+                renderResult([{title:'Local summary', body:buildLocalSummary()}]);
+                resultDiv.appendChild(Object.assign(document.createElement('div'),{className:'api-success',textContent:'API responded without actionable payload. Displaying computed summary instead.'}));
+              }
+            }else{
+              renderResult([{title:'Local summary', body:buildLocalSummary()}]);
+              const errorBox=document.createElement('div');
+              errorBox.className='api-error';
+              errorBox.textContent='Unable to retrieve recommendations from the API. Local score summary is shown.';
+              resultDiv.appendChild(errorBox);
+            }
+          }catch(err){
+            console.error(err);
+            renderResult([{title:'Local summary', body:buildLocalSummary()}]);
+            const errorBox=document.createElement('div');
+            errorBox.className='api-error';
+            errorBox.textContent='Network error while contacting the API. Local score summary is shown.';
+            resultDiv.appendChild(errorBox);
+          }finally{
+            submitBtn.disabled=false;
+          }
+        }
+      }
+
+      mhForm.addEventListener('change', updateSummary, {capture:true});
+      mhForm.addEventListener('submit', handleSubmit);
+      copyBtn.addEventListener('click', copySummary);
+      clearBtn.addEventListener('click', clearAll);
+
+      document.querySelectorAll('.tip .icon').forEach((icon,idx)=>{
+        const tip=icon.closest('.tip');
+        const tooltip=tip.querySelector('.tooltiptext');
+        const id=tooltip.id||`tip-${idx}`;
+        tooltip.id=id;
+        icon.setAttribute('role','button');
+        icon.setAttribute('tabindex','0');
+        icon.setAttribute('aria-controls',id);
+        icon.setAttribute('aria-expanded','false');
+        icon.addEventListener('click',()=>{
+          const isOpen=tip.classList.toggle('open');
+          icon.setAttribute('aria-expanded',String(isOpen));
+        });
+        icon.addEventListener('keydown',(e)=>{
+          if(e.key==='Enter' || e.key===' '){
+            e.preventDefault();
+            icon.click();
+          }
+          if(e.key==='Escape'){
+            tip.classList.remove('open');
+            icon.setAttribute('aria-expanded','false');
+          }
+        });
+        tip.addEventListener('focusout',(e)=>{
+          if(!tip.contains(e.relatedTarget)){
+            tip.classList.remove('open');
+            icon.setAttribute('aria-expanded','false');
+          }
+        });
+      });
+
+      document.querySelectorAll('input[name="rating"]').forEach(radio=>{
+        radio.addEventListener('change',()=>{
+          const thanks=document.getElementById('rateThanks');
+          thanks.classList.add('show');
+          setTimeout(()=>thanks.classList.remove('show'),3200);
+        });
+      });
+
+      updateSummary();
+    </script>
+  </body>
+</html>
