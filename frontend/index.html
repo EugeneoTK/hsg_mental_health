@@ -168,6 +168,34 @@
         gap: 18px;
       }
 
+      .followup-section {
+        display: grid;
+        gap: 12px;
+      }
+
+      .followup-section.is-hidden {
+        display: none;
+      }
+
+      .followup-label {
+        margin: 4px 20px 0;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .followup-label .scale-chip {
+        margin-left: 0;
+      }
+
+      .followup-title {
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
       .question-card.expanded {
         border-color: rgba(15, 107, 214, 0.4);
         box-shadow: 0 32px 80px rgba(15, 107, 214, 0.18);
@@ -748,232 +776,239 @@
               </label>
             </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q3" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q3_label">3. Trouble falling or staying asleep, or sleeping too much</legend>
-              <label>
-                <input type="radio" name="phq9_q3" value="0" aria-labelledby="phq9_q3_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q3" value="1" aria-labelledby="phq9_q3_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q3" value="2" aria-labelledby="phq9_q3_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q3" value="3" aria-labelledby="phq9_q3_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+            <div class="followup-section is-hidden" data-followup-group="phq9" aria-hidden="true">
+              <p class="followup-label">
+                <span class="followup-title">PHQ-9 follow-up items</span>
+                <span class="scale-chip depression">PHQ-9</span>
+              </p>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q4" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q4_label">4. Feeling tired or having little energy</legend>
-              <label>
-                <input type="radio" name="phq9_q4" value="0" aria-labelledby="phq9_q4_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q4" value="1" aria-labelledby="phq9_q4_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q4" value="2" aria-labelledby="phq9_q4_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q4" value="3" aria-labelledby="phq9_q4_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q3" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q3_label">3. Trouble falling or staying asleep, or sleeping too much</legend>
+                <label>
+                  <input type="radio" name="phq9_q3" value="0" aria-labelledby="phq9_q3_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q3" value="1" aria-labelledby="phq9_q3_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q3" value="2" aria-labelledby="phq9_q3_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q3" value="3" aria-labelledby="phq9_q3_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q5" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q5_label">5. Poor appetite or overeating</legend>
-              <label>
-                <input type="radio" name="phq9_q5" value="0" aria-labelledby="phq9_q5_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q5" value="1" aria-labelledby="phq9_q5_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q5" value="2" aria-labelledby="phq9_q5_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q5" value="3" aria-labelledby="phq9_q5_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q4" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q4_label">4. Feeling tired or having little energy</legend>
+                <label>
+                  <input type="radio" name="phq9_q4" value="0" aria-labelledby="phq9_q4_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q4" value="1" aria-labelledby="phq9_q4_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q4" value="2" aria-labelledby="phq9_q4_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q4" value="3" aria-labelledby="phq9_q4_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q6" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q6_label">6. Feeling bad about yourself — or that you are a failure or have let yourself or your family down</legend>
-              <label>
-                <input type="radio" name="phq9_q6" value="0" aria-labelledby="phq9_q6_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q6" value="1" aria-labelledby="phq9_q6_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q6" value="2" aria-labelledby="phq9_q6_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q6" value="3" aria-labelledby="phq9_q6_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q5" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q5_label">5. Poor appetite or overeating</legend>
+                <label>
+                  <input type="radio" name="phq9_q5" value="0" aria-labelledby="phq9_q5_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q5" value="1" aria-labelledby="phq9_q5_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q5" value="2" aria-labelledby="phq9_q5_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q5" value="3" aria-labelledby="phq9_q5_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q7" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q7_label">7. Trouble concentrating on things, such as reading the newspaper or watching television</legend>
-              <label>
-                <input type="radio" name="phq9_q7" value="0" aria-labelledby="phq9_q7_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q7" value="1" aria-labelledby="phq9_q7_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q7" value="2" aria-labelledby="phq9_q7_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q7" value="3" aria-labelledby="phq9_q7_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q6" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q6_label">6. Feeling bad about yourself — or that you are a failure or have let yourself or your family down</legend>
+                <label>
+                  <input type="radio" name="phq9_q6" value="0" aria-labelledby="phq9_q6_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q6" value="1" aria-labelledby="phq9_q6_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q6" value="2" aria-labelledby="phq9_q6_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q6" value="3" aria-labelledby="phq9_q6_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q8" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q8_label">8. Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</legend>
-              <label>
-                <input type="radio" name="phq9_q8" value="0" aria-labelledby="phq9_q8_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q8" value="1" aria-labelledby="phq9_q8_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q8" value="2" aria-labelledby="phq9_q8_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q8" value="3" aria-labelledby="phq9_q8_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q7" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q7_label">7. Trouble concentrating on things, such as reading the newspaper or watching television</legend>
+                <label>
+                  <input type="radio" name="phq9_q7" value="0" aria-labelledby="phq9_q7_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q7" value="1" aria-labelledby="phq9_q7_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q7" value="2" aria-labelledby="phq9_q7_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q7" value="3" aria-labelledby="phq9_q7_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="phq9_q9" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
-              <legend id="phq9_q9_label">
-                9. Thoughts that you would be better off dead, or of hurting yourself in some way
-                <span class="scale-chip depression">Safety check</span>
-              </legend>
-              <label>
-                <input type="radio" name="phq9_q9" value="0" aria-labelledby="phq9_q9_label option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q9" value="1" aria-labelledby="phq9_q9_label option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q9" value="2" aria-labelledby="phq9_q9_label option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="phq9_q9" value="3" aria-labelledby="phq9_q9_label option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="phq9_q8" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q8_label">8. Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</legend>
+                <label>
+                  <input type="radio" name="phq9_q8" value="0" aria-labelledby="phq9_q8_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q8" value="1" aria-labelledby="phq9_q8_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q8" value="2" aria-labelledby="phq9_q8_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q8" value="3" aria-labelledby="phq9_q8_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
+
+              <fieldset class="question-row is-hidden" data-question="phq9_q9" data-scale="phq9" data-subscale="depression" role="rowgroup" aria-hidden="true">
+                <legend id="phq9_q9_label">
+                  9. Thoughts that you would be better off dead, or of hurting yourself in some way
+                  <span class="scale-chip depression">Safety check</span>
+                </legend>
+                <label>
+                  <input type="radio" name="phq9_q9" value="0" aria-labelledby="phq9_q9_label option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q9" value="1" aria-labelledby="phq9_q9_label option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q9" value="2" aria-labelledby="phq9_q9_label option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="phq9_q9" value="3" aria-labelledby="phq9_q9_label option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
+            </div>
           </div>
         </section>
 
@@ -1077,165 +1112,172 @@
               </label>
             </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="gad7_q3" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
-              <legend id="gad7_q3_label">3. Worrying too much about different things</legend>
-              <label>
-                <input type="radio" name="gad7_q3" value="0" aria-labelledby="gad7_q3_label gad-option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q3" value="1" aria-labelledby="gad7_q3_label gad-option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q3" value="2" aria-labelledby="gad7_q3_label gad-option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q3" value="3" aria-labelledby="gad7_q3_label gad-option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+            <div class="followup-section is-hidden" data-followup-group="gad7" aria-hidden="true">
+              <p class="followup-label">
+                <span class="followup-title">GAD-7 follow-up items</span>
+                <span class="scale-chip anxiety">GAD-7</span>
+              </p>
 
-            <fieldset class="question-row is-hidden" data-question="gad7_q4" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
-              <legend id="gad7_q4_label">4. Trouble relaxing</legend>
-              <label>
-                <input type="radio" name="gad7_q4" value="0" aria-labelledby="gad7_q4_label gad-option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q4" value="1" aria-labelledby="gad7_q4_label gad-option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q4" value="2" aria-labelledby="gad7_q4_label gad-option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q4" value="3" aria-labelledby="gad7_q4_label gad-option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="gad7_q3" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
+                <legend id="gad7_q3_label">3. Worrying too much about different things</legend>
+                <label>
+                  <input type="radio" name="gad7_q3" value="0" aria-labelledby="gad7_q3_label gad-option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q3" value="1" aria-labelledby="gad7_q3_label gad-option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q3" value="2" aria-labelledby="gad7_q3_label gad-option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q3" value="3" aria-labelledby="gad7_q3_label gad-option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="gad7_q5" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
-              <legend id="gad7_q5_label">5. Being so restless that it is hard to sit still</legend>
-              <label>
-                <input type="radio" name="gad7_q5" value="0" aria-labelledby="gad7_q5_label gad-option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q5" value="1" aria-labelledby="gad7_q5_label gad-option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q5" value="2" aria-labelledby="gad7_q5_label gad-option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q5" value="3" aria-labelledby="gad7_q5_label gad-option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="gad7_q4" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
+                <legend id="gad7_q4_label">4. Trouble relaxing</legend>
+                <label>
+                  <input type="radio" name="gad7_q4" value="0" aria-labelledby="gad7_q4_label gad-option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q4" value="1" aria-labelledby="gad7_q4_label gad-option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q4" value="2" aria-labelledby="gad7_q4_label gad-option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q4" value="3" aria-labelledby="gad7_q4_label gad-option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="gad7_q6" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
-              <legend id="gad7_q6_label">6. Becoming easily annoyed or irritable</legend>
-              <label>
-                <input type="radio" name="gad7_q6" value="0" aria-labelledby="gad7_q6_label gad-option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q6" value="1" aria-labelledby="gad7_q6_label gad-option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q6" value="2" aria-labelledby="gad7_q6_label gad-option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q6" value="3" aria-labelledby="gad7_q6_label gad-option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="gad7_q5" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
+                <legend id="gad7_q5_label">5. Being so restless that it is hard to sit still</legend>
+                <label>
+                  <input type="radio" name="gad7_q5" value="0" aria-labelledby="gad7_q5_label gad-option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q5" value="1" aria-labelledby="gad7_q5_label gad-option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q5" value="2" aria-labelledby="gad7_q5_label gad-option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q5" value="3" aria-labelledby="gad7_q5_label gad-option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
 
-            <fieldset class="question-row is-hidden" data-question="gad7_q7" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
-              <legend id="gad7_q7_label">7. Feeling afraid as if something awful might happen</legend>
-              <label>
-                <input type="radio" name="gad7_q7" value="0" aria-labelledby="gad7_q7_label gad-option-0" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">0</span>
-                  <span class="choice-text sr-only">Not at all</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q7" value="1" aria-labelledby="gad7_q7_label gad-option-1" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">1</span>
-                  <span class="choice-text sr-only">Several days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q7" value="2" aria-labelledby="gad7_q7_label gad-option-2" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">2</span>
-                  <span class="choice-text sr-only">More than half the days</span>
-                </span>
-              </label>
-              <label>
-                <input type="radio" name="gad7_q7" value="3" aria-labelledby="gad7_q7_label gad-option-3" />
-                <span class="choice">
-                  <span class="choice-score" aria-hidden="true">3</span>
-                  <span class="choice-text sr-only">Nearly every day</span>
-                </span>
-              </label>
-            </fieldset>
+              <fieldset class="question-row is-hidden" data-question="gad7_q6" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
+                <legend id="gad7_q6_label">6. Becoming easily annoyed or irritable</legend>
+                <label>
+                  <input type="radio" name="gad7_q6" value="0" aria-labelledby="gad7_q6_label gad-option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q6" value="1" aria-labelledby="gad7_q6_label gad-option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q6" value="2" aria-labelledby="gad7_q6_label gad-option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q6" value="3" aria-labelledby="gad7_q6_label gad-option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
+
+              <fieldset class="question-row is-hidden" data-question="gad7_q7" data-scale="gad7" data-subscale="anxiety" role="rowgroup" aria-hidden="true">
+                <legend id="gad7_q7_label">7. Feeling afraid as if something awful might happen</legend>
+                <label>
+                  <input type="radio" name="gad7_q7" value="0" aria-labelledby="gad7_q7_label gad-option-0" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">0</span>
+                    <span class="choice-text sr-only">Not at all</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q7" value="1" aria-labelledby="gad7_q7_label gad-option-1" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">1</span>
+                    <span class="choice-text sr-only">Several days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q7" value="2" aria-labelledby="gad7_q7_label gad-option-2" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">2</span>
+                    <span class="choice-text sr-only">More than half the days</span>
+                  </span>
+                </label>
+                <label>
+                  <input type="radio" name="gad7_q7" value="3" aria-labelledby="gad7_q7_label gad-option-3" />
+                  <span class="choice">
+                    <span class="choice-score" aria-hidden="true">3</span>
+                    <span class="choice-text sr-only">Nearly every day</span>
+                  </span>
+                </label>
+              </fieldset>
+            </div>
           </div>
         </section>
 
@@ -1305,6 +1347,22 @@
       }
 
       function setFollowupVisibility(ids, shouldShow){
+        if(!ids.length) return;
+
+        const groupName = ids[0].split('_')[0];
+        if(groupName){
+          const group = mhForm.querySelector(`[data-followup-group="${groupName}"]`);
+          if(group){
+            if(shouldShow){
+              group.classList.remove('is-hidden');
+              group.removeAttribute('aria-hidden');
+            }else{
+              group.classList.add('is-hidden');
+              group.setAttribute('aria-hidden','true');
+            }
+          }
+        }
+
         ids.forEach(id=>{
           const row = mhForm.querySelector(`[data-question="${id}"]`);
           if(!row) return;
